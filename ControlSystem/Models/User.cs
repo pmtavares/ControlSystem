@@ -50,9 +50,9 @@ namespace ControlSystem.Models
         [Display(Name = "Is teacher")]
         public bool Teacher { get; set; }
 
-        //public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<Groups> Groups { get; set; }
 
-        //public virtual ICollection<GroupDetail> GroupsDetails { get; set; }
+        public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
 
     }
 }
