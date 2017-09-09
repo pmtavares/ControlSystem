@@ -38,21 +38,22 @@ namespace ControlSystem.Models
         public string Phone { get; set; }
 
         [Required(ErrorMessage = " The Field {0} é required!")]
-        [StringLength(100, ErrorMessage = " The Field {0} can have a maximum {1} and minimum {2} caracteres ", MinimumLength = 10)]
+        [StringLength(100, ErrorMessage = " The Field {0} can have a  minimum {1} and  maximum {2} caracteres ", MinimumLength = 10)]
         public string Address { get; set; }
 
         [DataType(DataType.ImageUrl)]
+        [Display(Name="Image")]
         public string Photo { get; set; }
 
-        [Display(Name = "Is Student")]
+        [Display(Name = "Student")]
         public bool Student { get; set; }
 
-        [Display(Name = "Is teacher")]
+        [Display(Name = "Teacher")]
         public bool Teacher { get; set; }
 
-        public virtual ICollection<Groups> Groups { get; set; }
+        //public virtual ICollection<Groups> Groups { get; set; }
 
-        public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
+        //public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
 
     }
 }

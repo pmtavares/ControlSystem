@@ -20,6 +20,8 @@ namespace ControlSystem.Models
             base.Dispose(disposing);
         }
 
+        public System.Data.Entity.DbSet<ControlSystem.Models.User> Users { get; set; }
+
 
 
         /** Steps to create the relation EF and generate tables
