@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ControlSystem.Models;
+using ControlSystem.Classes;
 
 namespace ControlSystem.Controllers
 {
@@ -46,16 +47,50 @@ namespace ControlSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,UserName,Name,Surname,Phone,Address,Photo,Student,Teacher")] User user)
+        public ActionResult Create(UserView userView)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                db.Users.Add(userView.User);
+                try
+                {
+                    
+
+                    if(userView != null)
+                    {
+                        var pic = Utilities.UploadPhoto(userView.Photo);
+
+
+                        if (!string.IsNullOrEmpty(pic))
+                        {
+                            userView.User.Photo = string.Format("~/Content/Photos/{0}", pic);
+                        }
+                        
+                    }
+                    db.SaveChanges();
+
+                    Utilities.CreateUserASP(userView.User.UserName);
+
+                    if(userView.User.Student)
+                    {
+                        Utilities.AddRoleToUser(userView.User.UserName, "Student");
+                    }
+                    if (userView.User.Teacher)
+                    {
+                        Utilities.AddRoleToUser(userView.User.UserName, "Teacher");
+                    }
+                    
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
             }
 
-            return View(user);
+            return View(userView);
         }
 
         // GET: Users/Edit/5
@@ -70,7 +105,12 @@ namespace ControlSystem.Controllers
             {
                 return HttpNotFound();
             }
-            return View(user);
+
+            var view = new UserView
+            {
+                User = user
+            };
+            return View(view);
         }
 
         // POST: Users/Edit/5
