@@ -117,21 +117,29 @@ namespace ControlSystem.Controllers.API
 
         // POST: api/Users
         //[ResponseType(typeof(User))]
-        public IHttpActionResult PostUser(User user)
+        public IHttpActionResult PostUser(UserPassword userPassword)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var user = new User()
+            {
+                Address = userPassword.Address,
+                
+                Surname = userPassword.Surname,
+                Phone = userPassword.Phone,
+                UserName = userPassword.UserName
+            };
+
             try
             {
-               
-
-                db.Users.Add(user);
+                                
+                db.Users.Add(userPassword);
                 db.SaveChanges();
-                Utilities.CreateUserASP(user.UserName); //add to the other table
-                Utilities.AddRoleToUser(user.UserName, "Student"); //add student permission
+                Utilities.CreateUserASP(userPassword.UserName, userPassword.Password); //add to the other table
+                //Utilities.AddRoleToUser(userPassword.UserName, "Student"); //add student permission
             }
             catch (Exception ex)
             {
@@ -139,8 +147,13 @@ namespace ControlSystem.Controllers.API
                 ModelState.AddModelError(string.Empty, ex.Message);
             }
 
+            userPassword.Teacher = false;
+            userPassword.Student = true;
+            userPassword.UserId = user.UserId; //after saved
+
+
             //return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
-            return this.Ok(user);
+            return this.Ok(userPassword);
         }
 
         // DELETE: api/Users/5

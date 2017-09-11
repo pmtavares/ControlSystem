@@ -118,15 +118,40 @@ namespace ControlSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,UserName,Name,Surname,Phone,Address,Photo,Student,Teacher")] User user)
+        public ActionResult Edit(UserView userView)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+
+                if (userView.Photo != null)
+                {
+                    var pic = Utilities.UploadPhoto(userView.Photo);
+
+
+                    if (!string.IsNullOrEmpty(pic))
+                    {
+                        userView.User.Photo = string.Format("~/Content/Photos/{0}", pic);
+                    }
+
+                }
+
+
+                db.Entry(userView.User).State = EntityState.Modified;
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return View(userView);
+                }
+
+
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(userView.User);
         }
 
         // GET: Users/Delete/5

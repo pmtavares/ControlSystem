@@ -17,6 +17,25 @@ namespace ControlSystem.Classes
     {
         private static ApplicationDbContext userContext = new ApplicationDbContext(); //Old context for the tables created
         private static ContextControl db = new ContextControl(); //New Tables
+
+
+        //Send email to user in order to alter information
+        public static void ChangeEmailUserASP(string oldEmail, string newEmail)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userASP = userManager.FindByEmail(oldEmail);
+            if (userASP == null)
+            {
+                return;
+            }
+
+            userASP.UserName = newEmail;
+            userASP.Email = newEmail;
+
+            userManager.Update(userASP);
+            
+        }
+
 	
         public static void CheckRole(string roleName)
         {
