@@ -95,9 +95,20 @@ namespace ControlSystem.Controllers.API
             }
 
             db.Entry(user).State = EntityState.Modified;
+            var db2 = new ContextControl();
 
+            var oldUser = db2.Users.Find(user.UserId);
+
+            db2.Dispose();
             try
             {
+
+                if (oldUser != null && oldUser.UserName != user.UserName)
+                {
+                    Utilities.ChangeEmailUserASP(oldUser.UserName, user.UserName);
+
+
+                }
                 db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -112,7 +123,8 @@ namespace ControlSystem.Controllers.API
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            //return StatusCode(HttpStatusCode.NoContent);
+            return this.Ok(user);
         }
 
         // POST: api/Users

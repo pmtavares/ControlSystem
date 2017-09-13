@@ -123,6 +123,12 @@ namespace ControlSystem.Controllers
             if (ModelState.IsValid)
             {
 
+                var db2 = new ContextControl();
+
+                var oldUser = db2.Users.Find(userView.User.UserId);
+
+                db2.Dispose();
+
                 if (userView.Photo != null)
                 {
                     var pic = Utilities.UploadPhoto(userView.Photo);
@@ -134,12 +140,30 @@ namespace ControlSystem.Controllers
                     }
 
                 }
+                else
+                {
+
+                    userView.User.Photo = oldUser.Photo;
+
+                }
+
+
+                
+
 
 
                 db.Entry(userView.User).State = EntityState.Modified;
                 try
                 {
+
+                    if(oldUser != null && oldUser.UserName != userView.User.UserName)
+                    {
+                        Utilities.ChangeEmailUserASP(oldUser.UserName, userView.User.UserName);
+                        
+                        
+                    }
                     db.SaveChanges();
+                    
                 }
                 catch (Exception ex)
                 {
