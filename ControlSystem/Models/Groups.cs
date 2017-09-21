@@ -22,7 +22,7 @@ namespace ControlSystem.Models
 
         public virtual User Teacher { get; set; }
 
-        public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
+        //public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
 
     }
 }

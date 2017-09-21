@@ -22,6 +22,8 @@ namespace ControlSystem.Models
 
         public System.Data.Entity.DbSet<ControlSystem.Models.User> Users { get; set; }
 
+        public System.Data.Entity.DbSet<ControlSystem.Models.Groups> Groups { get; set; }
+
 
 
         /** Steps to create the relation EF and generate tables

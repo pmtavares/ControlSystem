@@ -51,7 +51,7 @@ namespace ControlSystem.Models
         [Display(Name = "Teacher")]
         public bool Teacher { get; set; }
 
-        //public virtual ICollection<Groups> Groups { get; set; }
+        public virtual ICollection<Groups> Groups { get; set; }
 
         //public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
 
