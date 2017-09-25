@@ -10,8 +10,13 @@ using ControlSystem.Models;
 
 namespace ControlSystem.Controllers.MVC
 {
+
+    [Authorize(Roles="Teacher")]
     public class GroupsController : Controller
     {
+
+
+
         private ContextControl db = new ContextControl();
 
         // GET: Groups
@@ -39,7 +44,7 @@ namespace ControlSystem.Controllers.MVC
         // GET: Groups/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName");
+            ViewBag.UserId = new SelectList(db.Users.Where(u=> u.Teacher).OrderBy(u=>u.Name).ThenBy(u=>u.Surname), "UserId", "Fullname");
             return View();
         }
 
@@ -57,7 +62,7 @@ namespace ControlSystem.Controllers.MVC
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", groups.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Where(u => u.Teacher).OrderBy(u => u.Name).ThenBy(u => u.Surname), "UserId", "Fullname");
             return View(groups);
         }
 

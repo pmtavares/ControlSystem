@@ -4,7 +4,7 @@
     ViewBag.Title = "Groups";
 }
 
-<h2>Groups</h2>
+<h2>List of Topics</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create",null, new {@class = "btn btn-default"})
@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Teacher.UserName)
+            @Html.DisplayName("Teacher")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
