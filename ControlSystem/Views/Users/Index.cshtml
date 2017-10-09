@@ -7,9 +7,9 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { }, new {@class = "btn btn-success" }) @* Class are the fourth parameter, the third one is parameter to be passed, in this case we do not have anything*@
 </p>
-<table class="table">
+<table class="table table table-hover table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.UserName)
@@ -69,9 +69,9 @@
             @Html.DisplayFor(modelItem => item.Teacher)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new {@class= "btn btn-primary" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-primary" })
         </td>
     </tr>
 }

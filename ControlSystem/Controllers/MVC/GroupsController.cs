@@ -19,6 +19,84 @@ namespace ControlSystem.Controllers.MVC
 
         private ContextControl db = new ContextControl();
 
+
+        //Delete students
+
+        public ActionResult DeleteStudent(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupsDetails groupsDetails = db.GroupsDetails.Find(id);
+            if (groupsDetails == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.GroupsDetails.Remove(groupsDetails);
+            db.SaveChanges();
+            return RedirectToAction(string.Format("Details/{0}", groupsDetails.GroupId));
+            
+        }
+
+        //Add Students
+        public ActionResult AddStudent(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            Groups groups = db.Groups.Find(id);
+            if (groups == null)
+            {
+                return HttpNotFound();
+            }
+
+            
+            var groupsDetails = new GroupsDetails
+            {
+                GroupId = id.Value
+            };
+
+            ViewBag.UserId = new SelectList(db.Users.Where(u => u.Student).OrderBy(u => u.Name).ThenBy(u => u.Surname), "UserId", "Fullname");
+
+            return View(groupsDetails);
+        }
+
+        [HttpPost]
+        public ActionResult AddStudent(GroupsDetails groupDetails)
+        {
+
+            if(ModelState.IsValid)
+            {
+
+                //Check in DB if user already exists
+                var exist = db.GroupsDetails.Where(gd => gd.GroupId == groupDetails.GroupId && gd.UserId == groupDetails.UserId).FirstOrDefault();
+
+
+                if (exist == null)
+                {
+                    db.GroupsDetails.Add(groupDetails);
+                    db.SaveChanges();
+                    return RedirectToAction(string.Format("Details/{0}", groupDetails.GroupId));
+
+                }
+                ModelState.AddModelError(string.Empty, "Student already registered!");
+                
+            }
+            
+                        
+            ViewBag.UserId = new SelectList(db.Users.Where(u => u.Student).OrderBy(u => u.Name).ThenBy(u => u.Surname), "UserId", "Fullname", groupDetails.UserId);
+            return View(groupDetails);
+            
+            
+        }
+
         // GET: Groups
         public ActionResult Index()
         {
@@ -49,8 +127,7 @@ namespace ControlSystem.Controllers.MVC
         }
 
         // POST: Groups/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "GroupId,Description,UserId")] Groups groups)
@@ -78,7 +155,8 @@ namespace ControlSystem.Controllers.MVC
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", groups.UserId);
+            //ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", groups.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Where(u => u.Teacher).OrderBy(u => u.Name).ThenBy(u => u.Surname), "UserId", "Fullname");
             return View(groups);
         }
 

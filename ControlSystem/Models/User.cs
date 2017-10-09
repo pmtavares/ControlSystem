@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -51,9 +52,11 @@ namespace ControlSystem.Models
         [Display(Name = "Teacher")]
         public bool Teacher { get; set; }
 
+
+        //[JsonIgnore] //Avoid serialization problems
         public virtual ICollection<Groups> Groups { get; set; }
 
-        //public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
+        public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
 
     }
 }

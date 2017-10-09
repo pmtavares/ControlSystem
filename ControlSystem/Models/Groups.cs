@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,9 +21,13 @@ namespace ControlSystem.Models
 
         public int UserId { get; set; }
 
+
+        [JsonIgnore] //Avoid serialization problems
         public virtual User Teacher { get; set; }
 
-        //public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -20,9 +21,17 @@ namespace ControlSystem.Models
             base.Dispose(disposing);
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>(); // Remove the cascade references that is set by standard for circular reference
+        }
+
+
         public System.Data.Entity.DbSet<ControlSystem.Models.User> Users { get; set; }
 
         public System.Data.Entity.DbSet<ControlSystem.Models.Groups> Groups { get; set; }
+
+        public System.Data.Entity.DbSet<ControlSystem.Models.GroupsDetails> GroupsDetails { get; set; }
 
 
 
