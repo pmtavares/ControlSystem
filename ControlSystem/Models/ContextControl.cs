@@ -33,6 +33,8 @@ namespace ControlSystem.Models
 
         public System.Data.Entity.DbSet<ControlSystem.Models.GroupsDetails> GroupsDetails { get; set; }
 
+        public System.Data.Entity.DbSet<ControlSystem.Models.Scores> Scores { get; set; }
+
 
 
         /** Steps to create the relation EF and generate tables

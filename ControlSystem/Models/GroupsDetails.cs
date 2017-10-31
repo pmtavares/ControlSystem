@@ -26,7 +26,7 @@ namespace ControlSystem.Models
 
         public string GroupStudent { get { return string.Format("{0} / {1}", Groups.Description, Student.Fullname); } }
 
-        //public virtual ICollection<Scores> Scores { get; set; }
+        public virtual ICollection<Scores> Scores { get; set; }
 
     }
 }
