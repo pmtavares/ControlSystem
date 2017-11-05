@@ -55,7 +55,7 @@ namespace ControlSystem.Models
 
         //[JsonIgnore] //Avoid serialization problems
         public virtual ICollection<Groups> Groups { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<GroupsDetails> GroupsDetails { get; set; }
 
     }

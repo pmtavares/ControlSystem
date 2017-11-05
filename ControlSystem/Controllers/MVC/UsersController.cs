@@ -16,6 +16,8 @@ namespace ControlSystem.Controllers
         private ContextControl db = new ContextControl();
 
         // GET: Users
+
+        //[Authorize]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
@@ -37,6 +39,7 @@ namespace ControlSystem.Controllers
         }
 
         // GET: Users/Create
+        //[Authorize(Users = "pedro@pedro.com")]
         public ActionResult Create()
         {
             return View();
@@ -47,6 +50,7 @@ namespace ControlSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Users = "pedro@pedro.com")]
         public ActionResult Create(UserView userView)
         {
             if (ModelState.IsValid)
@@ -54,8 +58,6 @@ namespace ControlSystem.Controllers
                 db.Users.Add(userView.User);
                 try
                 {
-                    
-
                     if(userView != null)
                     {
                         var pic = Utilities.UploadPhoto(userView.Photo);
@@ -122,7 +124,6 @@ namespace ControlSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var db2 = new ContextControl();
 
                 var oldUser = db2.Users.Find(userView.User.UserId);
@@ -132,8 +133,7 @@ namespace ControlSystem.Controllers
                 if (userView.Photo != null)
                 {
                     var pic = Utilities.UploadPhoto(userView.Photo);
-
-
+                    
                     if (!string.IsNullOrEmpty(pic))
                     {
                         userView.User.Photo = string.Format("~/Content/Photos/{0}", pic);
@@ -148,10 +148,6 @@ namespace ControlSystem.Controllers
                 }
 
 
-                
-
-
-
                 db.Entry(userView.User).State = EntityState.Modified;
                 try
                 {
@@ -159,8 +155,7 @@ namespace ControlSystem.Controllers
                     if(oldUser != null && oldUser.UserName != userView.User.UserName)
                     {
                         Utilities.ChangeEmailUserASP(oldUser.UserName, userView.User.UserName);
-                        
-                        
+                                              
                     }
                     db.SaveChanges();
                     

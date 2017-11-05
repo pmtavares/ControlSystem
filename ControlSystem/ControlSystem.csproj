@@ -175,6 +175,7 @@
     <Compile Include="Controllers\MVC\GroupsController.cs" />
     <Compile Include="Controllers\MVC\HomeController.cs" />
     <Compile Include="Controllers\MVC\ManageController.cs" />
+    <Compile Include="Controllers\MVC\ScoresController.cs" />
     <Compile Include="Controllers\MVC\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -262,6 +263,11 @@
     <Content Include="Views\Groups\Edit.cshtml" />
     <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Groups\AddStudent.cshtml" />
+    <Content Include="Views\Scores\Create.cshtml" />
+    <Content Include="Views\Scores\Delete.cshtml" />
+    <Content Include="Views\Scores\Details.cshtml" />
+    <Content Include="Views\Scores\Edit.cshtml" />
+    <Content Include="Views\Scores\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
